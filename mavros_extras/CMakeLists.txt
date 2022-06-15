@@ -4,7 +4,7 @@ project(mavros_extras)
 # Default to C++20
 if(NOT CMAKE_CXX_STANDARD)
   set(CMAKE_CXX_STANDARD 17)
-  #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++2a")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17")
 endif()
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   # we dont use add_compile_options with pedantic in message packages
@@ -60,6 +60,8 @@ find_package(std_srvs REQUIRED)
 find_package(trajectory_msgs REQUIRED)
 find_package(visualization_msgs REQUIRED)
 
+find_package(ssp_interfaces REQUIRED)
+
 include_directories(
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>
@@ -68,8 +70,14 @@ include_directories(
 include_directories(
   ${mavlink_INCLUDE_DIRS}
   ${EIGEN3_INCLUDE_DIRS}
-  ${GeographicLib_INCLUDE_DIRS}
+  ${GEOGRAPHICLIB_INCLUDE_DIRS}
+  ${pluginlib_INCLUDE_DIRS}
+  ../../ssp_interfaces/include
+  /opt/ros/humble/include/pluginlib/
 )
+
+get_property(FOO DIRECTORY PROPERTY INCLUDE_DIRECTORIES)
+message("Include directories are: > ${FOO} <")
 
 if(rclcpp_VERSION VERSION_LESS 9.0.0)
   add_definitions(
@@ -88,6 +96,7 @@ add_library(mavros_extras_plugins SHARED
   # mavros_cog.outl_glob_files('src/plugins')
   # ]]]
   src/plugins/3dr_radio.cpp
+  src/plugins/actuator_output_status.cpp
   src/plugins/adsb.cpp
   src/plugins/cam_imu_sync.cpp
   src/plugins/camera.cpp
@@ -122,7 +131,9 @@ add_library(mavros_extras_plugins SHARED
   src/plugins/vision_pose_estimate.cpp
   src/plugins/vision_speed_estimate.cpp
   src/plugins/wheel_odometry.cpp
-  # [[[end]]] (checksum: a6dc36e6871deb96f56d61e2a1a38f37)
+  src/plugins/wind_data.cpp
+  src/plugins/wingsail_actuator.cpp
+  # [[[end]]] (checksum: cb9fe2c8485e38ad6be75ed375863339)
 )
 ament_target_dependencies(mavros_extras_plugins
   angles
@@ -146,6 +157,7 @@ ament_target_dependencies(mavros_extras_plugins
   message_filters
   Eigen3
   yaml_cpp_vendor
+  ssp_interfaces
 )
 pluginlib_export_plugin_description_file(mavros mavros_plugins.xml)
 

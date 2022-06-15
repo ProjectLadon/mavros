@@ -71,6 +71,7 @@ private:
     manual_control_msg.z = (manual_control.z / 1000.0);
     manual_control_msg.r = (manual_control.r / 1000.0);
     manual_control_msg.buttons = manual_control.buttons;
+    manual_control_msg.buttons2 = manual_control.buttons2;
 
     control_pub->publish(manual_control_msg);
   }
