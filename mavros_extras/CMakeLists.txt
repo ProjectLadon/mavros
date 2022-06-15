@@ -69,7 +69,12 @@ include_directories(
   ${mavlink_INCLUDE_DIRS}
   ${EIGEN3_INCLUDE_DIRS}
   ${GeographicLib_INCLUDE_DIRS}
+  ${pluginlib_INCLUDE_DIRS}
+  /opt/ros/humble/include/pluginlib/
 )
+
+get_property(FOO DIRECTORY PROPERTY INCLUDE_DIRECTORIES)
+message("Include directories are: > ${FOO} <")
 
 if(rclcpp_VERSION VERSION_LESS 9.0.0)
   add_definitions(

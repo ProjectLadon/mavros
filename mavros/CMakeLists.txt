@@ -67,7 +67,11 @@ include_directories(
   ${mavlink_INCLUDE_DIRS}
   ${EIGEN3_INCLUDE_DIRS}
   ${GeographicLib_INCLUDE_DIRS}
+  ${mavros_msgs_INCLUDE_DIRS}
 )
+
+get_property(FOO DIRECTORY PROPERTY INCLUDE_DIRECTORIES)
+message("Include directories are: > ${FOO} <")
 
 ## Check if the datasets are installed
 include(CheckGeographicLibDatasets)
@@ -109,6 +113,16 @@ add_library(mavros SHARED
   src/lib/uas_timesync.cpp
   # [[[end]]] (checksum: 3239d16fc87982964694f18425f297b1)
 )
+
+target_include_directories(mavros PUBLIC
+  ${mavlink_INCLUDE_DIRS}
+  ${EIGEN3_INCLUDE_DIRS}
+  ${GEOGRAPHICLIB_INCLUDE_DIRS}
+  ${mavros_msgs_INCLUDE_DIRS}
+)
+
+message("mavros include directories are: > ${mavros_INCLUDE_DIRS} <")
+
 ament_target_dependencies(mavros
   rclcpp
   rclcpp_components
