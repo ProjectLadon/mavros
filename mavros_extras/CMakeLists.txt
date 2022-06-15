@@ -4,7 +4,7 @@ project(mavros_extras)
 # Default to C++20
 if(NOT CMAKE_CXX_STANDARD)
   set(CMAKE_CXX_STANDARD 17)
-  #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++2a")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17")
 endif()
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   # we dont use add_compile_options with pedantic in message packages
@@ -68,8 +68,13 @@ include_directories(
 include_directories(
   ${mavlink_INCLUDE_DIRS}
   ${EIGEN3_INCLUDE_DIRS}
-  ${GeographicLib_INCLUDE_DIRS}
+  ${GEOGRAPHICLIB_INCLUDE_DIRS}
+  ${pluginlib_INCLUDE_DIRS}
+  /opt/ros/humble/include/pluginlib/
 )
+
+get_property(FOO DIRECTORY PROPERTY INCLUDE_DIRECTORIES)
+message("Include directories are: > ${FOO} <")
 
 if(rclcpp_VERSION VERSION_LESS 9.0.0)
   add_definitions(
