@@ -60,6 +60,8 @@ find_package(std_srvs REQUIRED)
 find_package(trajectory_msgs REQUIRED)
 find_package(visualization_msgs REQUIRED)
 
+find_package(ssp_interfaces REQUIRED)
+
 include_directories(
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>
@@ -127,7 +129,9 @@ add_library(mavros_extras_plugins SHARED
   src/plugins/vision_pose_estimate.cpp
   src/plugins/vision_speed_estimate.cpp
   src/plugins/wheel_odometry.cpp
-  # [[[end]]] (checksum: a6dc36e6871deb96f56d61e2a1a38f37)
+  src/plugins/wind_data.cpp
+  src/plugins/wingsail_actuator.cpp
+  # [[[end]]] (checksum: cb9fe2c8485e38ad6be75ed375863339)
 )
 ament_target_dependencies(mavros_extras_plugins
   angles
@@ -151,6 +155,7 @@ ament_target_dependencies(mavros_extras_plugins
   message_filters
   Eigen3
   yaml_cpp_vendor
+  ssp_interfaces
 )
 pluginlib_export_plugin_description_file(mavros mavros_plugins.xml)
 
