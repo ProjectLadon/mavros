@@ -24,7 +24,7 @@
 #include <Eigen/Geometry>   // NOLINT
 
 #include "mavconn/thread_utils.hpp"
-#include "mavlink_convert.hpp"
+#include "mavros_msgs/mavlink_convert.hpp"
 #include "mavconn/mavlink_dialect.hpp"
 
 // OS X compat: missing error codes
