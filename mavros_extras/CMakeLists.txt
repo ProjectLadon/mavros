@@ -93,6 +93,7 @@ add_library(mavros_extras_plugins SHARED
   src/plugins/adsb.cpp
   src/plugins/cam_imu_sync.cpp
   src/plugins/camera.cpp
+  src/plugins/cellular_status.cpp
   src/plugins/companion_process_status.cpp
   src/plugins/debug_value.cpp
   src/plugins/distance_sensor.cpp
@@ -135,6 +136,7 @@ ament_target_dependencies(mavros_extras_plugins
   std_msgs
   std_srvs
   sensor_msgs
+  pluginlib
   nav_msgs
   trajectory_msgs
   rclcpp
