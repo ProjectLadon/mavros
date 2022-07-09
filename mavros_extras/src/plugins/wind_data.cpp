@@ -21,7 +21,7 @@
 
 namespace mavros
 {
-    namespace std_plugins
+    namespace extra_plugins
     {
         using namespace std::placeholders;      // NOLINT
 
@@ -89,4 +89,4 @@ namespace mavros
 } // namespace mavros
 
 #include <mavros/mavros_plugin_register_macro.hpp>  // NOLINT
-MAVROS_PLUGIN_REGISTER(mavros::std_plugins::WindDataPlugin)
+MAVROS_PLUGIN_REGISTER(mavros::extra_plugins::WindDataPlugin)
