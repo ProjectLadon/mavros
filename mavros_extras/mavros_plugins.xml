@@ -213,12 +213,24 @@ to FCU position and attitude estimators.</description>
 Send velocity estimation from various vision estimators
 to FCU position and attitude estimators.</description>
   </class>
-  <class name="wheel_odomotry" type="mavros::plugin::PluginFactoryTemplate&lt;mavros::extra_plugins::WheelOdometryPlugin&gt;" base_class_type="mavros::plugin::PluginFactory">
+  <class name="wheel_odometry" type="mavros::plugin::PluginFactoryTemplate&lt;mavros::extra_plugins::WheelOdometryPlugin&gt;" base_class_type="mavros::plugin::PluginFactory">
     <description>@brief Wheel odometry plugin.
-@plugin wheel_odomotry
+@plugin wheel_odometry
 
 This plugin allows computing and publishing wheel odometry coming from FCU wheel encoders.
 Can use either wheel's RPM or WHEEL_DISTANCE messages (the latter gives better accuracy).</description>
+  </class>
+  <class name="wind_data" type="mavros::plugin::PluginFactoryTemplate&lt;mavros::extra_plugins::WindDataPlugin&gt;" base_class_type="mavros::plugin::PluginFactory">
+    <description>@brief Wind data plugin
+@plugin wind_data
+
+This plugin allows the receipt and transmission of wind data from sail mounted sensors</description>
+  </class>
+  <class name="wingsail_actuator" type="mavros::plugin::PluginFactoryTemplate&lt;mavros::extra_plugins::WingsailActuatorPlugin&gt;" base_class_type="mavros::plugin::PluginFactory">
+    <description>@brief Wingsail actuator plugin
+@plugin wingsail_actuator
+
+This plugin allows the receipt of wingsail commands from an FCU</description>
   </class>
 </library>
 <!-- [[[end]]] (checksum: 616152f88997ac3b0173a8eef06cb7a8) -->
