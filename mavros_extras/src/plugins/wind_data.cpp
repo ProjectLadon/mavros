@@ -38,7 +38,7 @@ namespace mavros
         class WindDataPlugin : public plugin::Plugin
         {
         public:
-            explicit WindDataPlugin(plugin::UASPtr uas) : Plugin(uas, "wingsail_actuator")
+            explicit WindDataPlugin(plugin::UASPtr uas) : Plugin(uas, "wind_data")
             {
                 auto sensor_qos = rclcpp::SensorDataQoS();
 
