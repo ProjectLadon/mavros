@@ -96,6 +96,7 @@ add_library(mavros_extras_plugins SHARED
   # mavros_cog.outl_glob_files('src/plugins')
   # ]]]
   src/plugins/3dr_radio.cpp
+  src/plugins/actuator_output_status.cpp
   src/plugins/adsb.cpp
   src/plugins/cam_imu_sync.cpp
   src/plugins/camera.cpp
