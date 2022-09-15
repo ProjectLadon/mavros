@@ -72,6 +72,7 @@ include_directories(
   ${EIGEN3_INCLUDE_DIRS}
   ${GEOGRAPHICLIB_INCLUDE_DIRS}
   ${pluginlib_INCLUDE_DIRS}
+  ../../ssp_interfaces/include
   /opt/ros/humble/include/pluginlib/
 )
 

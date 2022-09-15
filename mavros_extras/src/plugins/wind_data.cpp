@@ -16,8 +16,12 @@
 #include "mavros/mavros_uas.hpp"
 #include "mavros/plugin.hpp"
 #include "mavros/plugin_filter.hpp"
+#include "angles/angles.h"
 
 #include "ssp_interfaces/msg/wind_data.hpp"
+#include "ssp_interfaces/ssp_interfaces.hpp"
+
+using namespace angles;
 
 namespace mavros
 {
@@ -76,12 +80,16 @@ namespace mavros
             void wind_cb(const ssp_interfaces::msg::WindData::SharedPtr in)
             {
                 mavlink::ladon_robotics::msg::WIND_DATA out{};
+                mavlink::common::msg::WIND_COV out_cv{};
                 out.source_sail     = in->source_sail;
                 out.wind_type       = in->wind_type;
                 out.speed           = in->speed;
                 out.direction       = in->direction;
+                out_cv.wind_x       = in->speed * cos(from_degrees(in->direction));
+                out_cv.wind_y       = in->speed * sin(from_degrees(in->direction));
 
                 uas->send_message(out);
+                if (in->wind_type == (uint8_t)ssp_interfaces::WIND_DATA_TYPE::WIND_DATA_TYPE_TRUE) { uas->send_message(out_cv); }
             }
         };
 
