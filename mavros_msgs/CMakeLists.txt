@@ -33,6 +33,7 @@ set(msg_files
   # ]]]
   msg/ADSBVehicle.msg
   msg/ActuatorControl.msg
+  msg/ActuatorOutputStatus.msg
   msg/Altitude.msg
   msg/AttitudeTarget.msg
   msg/CamIMUStamp.msg
