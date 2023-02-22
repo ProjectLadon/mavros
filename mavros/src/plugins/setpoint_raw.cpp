@@ -14,7 +14,7 @@
  * https://github.com/mavlink/mavros/tree/master/LICENSE.md
  */
 
-#include <tf2_eigen/tf2_eigen.h>
+#include <tf2_eigen/tf2_eigen.hpp>
 
 #include <algorithm>
 

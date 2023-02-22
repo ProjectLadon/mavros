@@ -77,7 +77,7 @@ include_directories(
 )
 
 get_property(FOO DIRECTORY PROPERTY INCLUDE_DIRECTORIES)
-message("Include directories are: > ${FOO} <")
+# message("Include directories are: > ${FOO} <")
 
 if(rclcpp_VERSION VERSION_LESS 9.0.0)
   add_definitions(

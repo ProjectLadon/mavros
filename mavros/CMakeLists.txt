@@ -71,7 +71,7 @@ include_directories(
 )
 
 get_property(FOO DIRECTORY PROPERTY INCLUDE_DIRECTORIES)
-message("Include directories are: > ${FOO} <")
+# message("Include directories are: > ${FOO} <")
 
 ## Check if the datasets are installed
 include(CheckGeographicLibDatasets)
@@ -114,7 +114,7 @@ target_include_directories(mavros PUBLIC
   ${mavros_msgs_INCLUDE_DIRS}
 )
 
-message("mavros include directories are: > ${mavros_INCLUDE_DIRS} <")
+# message("mavros include directories are: > ${mavros_INCLUDE_DIRS} <")
 
 ament_target_dependencies(mavros
   rclcpp

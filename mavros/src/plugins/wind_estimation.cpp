@@ -16,7 +16,7 @@
  */
 
 #include <angles/angles.h>
-#include <tf2_eigen/tf2_eigen.h>
+#include <tf2_eigen/tf2_eigen.hpp>
 
 #include "rcpputils/asserts.hpp"
 #include "mavros/mavros_uas.hpp"
