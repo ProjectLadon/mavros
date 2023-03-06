@@ -133,6 +133,7 @@ add_library(mavros_extras_plugins SHARED
   src/plugins/wheel_odometry.cpp
   src/plugins/wind_data.cpp
   src/plugins/wingsail_actuator.cpp
+  src/plugins/wingsail_feedback.cpp
   # [[[end]]] (checksum: cb9fe2c8485e38ad6be75ed375863339)
 )
 ament_target_dependencies(mavros_extras_plugins
