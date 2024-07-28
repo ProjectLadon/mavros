@@ -54,6 +54,13 @@ set(msg_files
   msg/GPSINPUT.msg
   msg/GPSRAW.msg
   msg/GPSRTK.msg
+  msg/GimbalDeviceAttitudeStatus.msg
+  msg/GimbalDeviceInformation.msg
+  msg/GimbalDeviceSetAttitude.msg
+  msg/GimbalManagerInformation.msg
+  msg/GimbalManagerSetAttitude.msg
+  msg/GimbalManagerSetPitchyaw.msg
+  msg/GimbalManagerStatus.msg
   msg/GlobalPositionTarget.msg
   msg/HilActuatorControls.msg
   msg/HilControls.msg
@@ -70,6 +77,7 @@ set(msg_files
   msg/MountControl.msg
   msg/NavControllerOutput.msg
   msg/OnboardComputerStatus.msg
+  msg/OpticalFlow.msg
   msg/OpticalFlowRad.msg
   msg/OverrideRCIn.msg
   msg/Param.msg
@@ -83,7 +91,9 @@ set(msg_files
   msg/RTKBaseline.msg
   msg/RadioStatus.msg
   msg/State.msg
+  msg/StatusEvent.msg
   msg/StatusText.msg
+  msg/SysStatus.msg
   msg/TerrainReport.msg
   msg/Thrust.msg
   msg/TimesyncStatus.msg
@@ -96,7 +106,7 @@ set(msg_files
   msg/WaypointList.msg
   msg/WaypointReached.msg
   msg/WheelOdomStamped.msg
-  # [[[end]]] (checksum: cf55cc727ab8f7a2823267cab0dd1bf3)
+  # [[[end]]] (checksum: a8e24eb0a6da5cea6cc049fdc6b2612e)
 )
 
 set(srv_files
@@ -109,6 +119,7 @@ set(srv_files
   srv/CommandInt.srv
   srv/CommandLong.srv
   srv/CommandTOL.srv
+  srv/CommandTOLLocal.srv
   srv/CommandTriggerControl.srv
   srv/CommandTriggerInterval.srv
   srv/CommandVtolTransition.srv
@@ -125,6 +136,11 @@ set(srv_files
   srv/FileRename.srv
   srv/FileTruncate.srv
   srv/FileWrite.srv
+  srv/GimbalGetInformation.srv
+  srv/GimbalManagerCameraTrack.srv
+  srv/GimbalManagerConfigure.srv
+  srv/GimbalManagerPitchyaw.srv
+  srv/GimbalManagerSetRoi.srv
   srv/LogRequestData.srv
   srv/LogRequestEnd.srv
   srv/LogRequestList.srv
@@ -143,7 +159,7 @@ set(srv_files
   srv/WaypointPull.srv
   srv/WaypointPush.srv
   srv/WaypointSetCurrent.srv
-  # [[[end]]] (checksum: a011691dec330a2a89d35288ebf05c55)
+  # [[[end]]] (checksum: cd7701b28a3176d96ef65cb1f2157917)
 )
 
 rosidl_generate_interfaces(${PROJECT_NAME}

@@ -2,6 +2,187 @@
 Changelog for package mavros_extras
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.8.0 (2024-06-07)
+------------------
+* gimbal_control: fix build
+* gimbal_control: fix using
+* gimbal_control: connect service on use
+* regenerate all using cogall.sh
+* reformat with jazzy's ament_uncrustify
+* Merge branch 'master' into ros2
+  * master:
+  1.19.0
+  update changelog
+  gps_global_origin: remove LLA to ECEF conversion
+* 1.19.0
+* update changelog
+* removed prefix in enums in messages and changed to use existing functions for string and quaternion convert
+* Adding example service calls
+* Code cleanup
+* Removed exception after testing behavior
+  Replaced with service call failure with MAV_RESULT_DENIED result value (2)
+* Corrected build errors and warnings
+* Final touches
+  Added functionality that was overlooked for camera tracking if supported, added copyright info, added custom exception thrown when mode enumerator is not understood
+* Added gimbal_control plugin
+  Added all functionality to support a plugin to enable compatibility with MAVLink Gimbal Protocol v2
+* Contributors: Frederik Mazur Andersen, Mark-Beaty, Vladimir Ermakov
+
+1.19.0 (2024-06-06)
+-------------------
+
+2.7.0 (2024-03-03)
+------------------
+* re-generate with cogall.sh
+* Merge branch 'master' into ros2
+  * master:
+  1.18.0
+  update changelog
+  sys_status.cpp: improve timeout code
+  sys_status.cpp: Add a SYS_STATUS message publisher
+  [camera plugin] Fix image_index and capture_result not properly filled
+  Fix missing semi-colon
+  GPS_STATUS Plugin: Fill in available messages for ROS1 legacy
+* 1.18.0
+* update changelog
+* [camera plugin] Fix image_index and capture_result not properly filled
+* [camera plugin] Fix image_index and capture_result not properly filled
+* Update mavros_plugins.xml
+* Update wheel_odometry.cpp
+  fix typo
+* Fix typo
+  fix typo in odometry frame child id
+* Removed unused variable
+* Use SensorDataQoS for gp_origin subscriber
+* Fix missing semi-colon
+* GPS_STATUS Plugin: Fill in available messages for ROS1 legacy
+  Filled in available fields in GPS_RAW_INT & GPS2_RAW messages
+  p.s. seems GPS2_RAW more complete than original GPS_RAW_INT
+* Define _frd frames in odom plugin based on parent/child frame parametrs
+* Contributors: Beniamino Pozzan, Kristoffer Bergman, Matteo Molinari, Mattia Giurato, Mohamed Abdelkader, Seunghwan Jo, Vladimir Ermakov, hpbrandal
+
+1.18.0 (2024-03-03)
+-------------------
+* [camera plugin] Fix image_index and capture_result not properly filled
+* Fix missing semi-colon
+* GPS_STATUS Plugin: Fill in available messages for ROS1 legacy
+  Filled in available fields in GPS_RAW_INT & GPS2_RAW messages
+  p.s. seems GPS2_RAW more complete than original GPS_RAW_INT
+* Contributors: Beniamino Pozzan, Seunghwan Jo
+
+2.6.0 (2023-09-09)
+------------------
+* switch to use tf2_eigen.hpp, but that drops support for EOL distros
+* ament uncrustify
+* cog: regenerate all
+* Merge branch 'master' into ros2
+  * master:
+  1.17.0
+  update changelog
+  cog: regenerate all
+  Bugfix/update map origin with home position (`#1892 <https://github.com/mavlink/mavros/issues/1892>`_)
+  mavros: Remove extra ';'
+  mavros_extras: Fix some init order warnings
+  Suppress warnings from included headers
+  1.16.0
+  update changelog
+  made it such that the gp_origin topic published latched.
+  use hpp instead of deprecated .h pluginlib headers
+* 1.17.0
+* update changelog
+* Merge pull request `#1889 <https://github.com/mavlink/mavros/issues/1889>`_ from MKargus0/feature/fix_landing_target_time_conversion
+  Fixed header.stamp conversion in landing target
+* fixed style
+* fixed header.stamp conversion in landing target
+* Merge pull request `#1871 <https://github.com/mavlink/mavros/issues/1871>`_ from Vladislavert/feature/optical_flow_msg
+  Addition of New OpticalFlow.msg
+* Added geometry_msgs/Vector3 to OpticalFlow.msg
+* Added vectors to the message OpticalFlow.msg
+* Added message optical flow
+* Merge pull request `#1865 <https://github.com/mavlink/mavros/issues/1865>`_ from scoutdi/warnings
+  Fix / suppress some build warnings
+* mavros_extras: Fix some init order warnings
+* Suppress warnings from included headers
+* 1.16.0
+* update changelog
+* Merge pull request `#1817 <https://github.com/mavlink/mavros/issues/1817>`_ from lucasw/pluginlib_hpp
+  use hpp instead of deprecated .h pluginlib headers
+* use hpp instead of deprecated .h pluginlib headers
+* Contributors: Lucas Walter, Mikhail Kolodochka, Morten Fyhn Amundsen, Vladimir Ermakov, Vladislavert
+
+2.5.0 (2023-05-05)
+------------------
+
+2.4.0 (2022-12-30)
+------------------
+* extras: uncrustify
+* extras: fix build, 2
+* extras: fix build
+* extras: fix cog
+* Merge branch 'master' into ros2
+  * master:
+  1.15.0
+  update changelog
+  ci: update actions
+  Implement debug float array handler
+  mavros_extras: Fix a sequence point warning
+  mavros_extras: Fix a comparison that shouldn't be bitwise
+  mavros: Fix some warnings
+  mavros_extras: Fix buggy check for lat/lon ignored
+  libmavconn: fix MAVLink v1.0 output selection
+* 1.15.0
+* update changelog
+* Merge pull request `#1811 <https://github.com/mavlink/mavros/issues/1811>`_ from scoutdi/debug-float-array
+  Implement debug float array handler
+* Implement debug float array handler
+  Co-authored-by: Morten Fyhn Amundsen <morten.f.amundsen@scoutdi.com>
+* Merge pull request `#1807 <https://github.com/mavlink/mavros/issues/1807>`_ from scoutdi/fix-bitwise-comparison
+  mavros_extras: Fix a comparison that shouldn't be bitwise
+* Merge pull request `#1808 <https://github.com/mavlink/mavros/issues/1808>`_ from scoutdi/fix-sequence-point-warning
+  mavros_extras: Fix a sequence point warning
+* mavros_extras: Fix a sequence point warning
+* mavros_extras: Fix a comparison that shouldn't be bitwise
+* Merge pull request `#1805 <https://github.com/mavlink/mavros/issues/1805>`_ from scoutdi/fix-latlon-check
+  mavros_extras: Fix buggy check for lat/lon ignored
+* mavros_extras: Fix buggy check for lat/lon ignored
+* Contributors: Morten Fyhn Amundsen, Sverre Velten Rothmund, Vladimir Ermakov
+
+2.3.0 (2022-09-24)
+------------------
+* extras: fix linter errors
+* extras: fix toMsg
+* extras: fix build
+* extras: port guided_target
+* mavros: remove custom find script, re-generate
+* Merge branch 'master' into ros2
+  * master:
+  1.14.0
+  update changelog
+  scripts: waypoint and param files are text, not binary
+  libmavconn: fix MAVLink v1.0 output selection
+  plugins: add guided_target to accept offboard position targets
+  add cmake module path for geographiclib on debian based systems
+  use already installed FindGeographicLib.cmake
+* 1.14.0
+* update changelog
+* Merge pull request `#1780 <https://github.com/mavlink/mavros/issues/1780>`_ from snktshrma/master
+  guided_target: accept position-target-global-int messages
+* plugins: add guided_target to accept offboard position targets
+  Update guided_target.cpp
+  Update guided_target.cpp
+  Update mavros_plugins.xml
+  Update CMakeLists.txt
+  Added offboard_position.cpp
+  Update apm_config.yaml
+  Update offboard_position.cpp
+  Update offboard_position.cpp
+  Rename offboard_position.cpp to guided_target.cpp
+  Update CMakeLists.txt
+  Update mavros_plugins.xml
+  Update apm_config.yaml
+  Update guided_target.cpp
+* Contributors: Sanket Sharma, Vladimir Ermakov
+
 2.2.0 (2022-06-27)
 ------------------
 * extras: fix build
@@ -34,6 +215,59 @@ Changelog for package mavros_extras
 * Merge pull request `#1744 <https://github.com/mavlink/mavros/issues/1744>`_ from amilcarlucas/pr_gimbal_diagnostics_fixes
   mount_control.cpp: detect MOUNT_ORIENTATION stale messages
 * extras: fix cog re to extract plugin name
+
+1.17.0 (2023-09-09)
+-------------------
+* Merge pull request `#1865 <https://github.com/mavlink/mavros/issues/1865>`_ from scoutdi/warnings
+  Fix / suppress some build warnings
+* mavros_extras: Fix some init order warnings
+* Suppress warnings from included headers
+* Contributors: Morten Fyhn Amundsen, Vladimir Ermakov
+
+1.16.0 (2023-05-05)
+-------------------
+* Merge pull request `#1817 <https://github.com/mavlink/mavros/issues/1817>`_ from lucasw/pluginlib_hpp
+  use hpp instead of deprecated .h pluginlib headers
+* use hpp instead of deprecated .h pluginlib headers
+* Contributors: Lucas Walter, Vladimir Ermakov
+
+1.15.0 (2022-12-30)
+-------------------
+* Merge pull request `#1811 <https://github.com/mavlink/mavros/issues/1811>`_ from scoutdi/debug-float-array
+  Implement debug float array handler
+* Implement debug float array handler
+  Co-authored-by: Morten Fyhn Amundsen <morten.f.amundsen@scoutdi.com>
+* Merge pull request `#1807 <https://github.com/mavlink/mavros/issues/1807>`_ from scoutdi/fix-bitwise-comparison
+  mavros_extras: Fix a comparison that shouldn't be bitwise
+* Merge pull request `#1808 <https://github.com/mavlink/mavros/issues/1808>`_ from scoutdi/fix-sequence-point-warning
+  mavros_extras: Fix a sequence point warning
+* mavros_extras: Fix a sequence point warning
+* mavros_extras: Fix a comparison that shouldn't be bitwise
+* Merge pull request `#1805 <https://github.com/mavlink/mavros/issues/1805>`_ from scoutdi/fix-latlon-check
+  mavros_extras: Fix buggy check for lat/lon ignored
+* mavros_extras: Fix buggy check for lat/lon ignored
+* Contributors: Morten Fyhn Amundsen, Sverre Velten Rothmund, Vladimir Ermakov
+
+1.14.0 (2022-09-24)
+-------------------
+* Merge pull request `#1780 <https://github.com/mavlink/mavros/issues/1780>`_ from snktshrma/master
+  guided_target: accept position-target-global-int messages
+* plugins: add guided_target to accept offboard position targets
+  Update guided_target.cpp
+  Update guided_target.cpp
+  Update mavros_plugins.xml
+  Update CMakeLists.txt
+  Added offboard_position.cpp
+  Update apm_config.yaml
+  Update offboard_position.cpp
+  Update offboard_position.cpp
+  Rename offboard_position.cpp to guided_target.cpp
+  Update CMakeLists.txt
+  Update mavros_plugins.xml
+  Update apm_config.yaml
+  Update guided_target.cpp
+* Merge pull request `#1744 <https://github.com/mavlink/mavros/issues/1744>`_ from amilcarlucas/pr_gimbal_diagnostics_fixes
+  mount_control.cpp: detect MOUNT_ORIENTATION stale messages
 * mount_control.cpp: detect MOUNT_ORIENTATION stale messages
   correct MountConfigure response success
   correct constructor initialization order

@@ -70,6 +70,13 @@ vision) to FCU - processed in HIL mode or out of it if parameter MAV_USEHILGPS
 is set on PX4 Pro Autopilot Firmware; Ardupilot Firmware already supports it
 without a flag set.</description>
   </class>
+  <class name="gimbal_control" type="mavros::plugin::PluginFactoryTemplate&lt;mavros::extra_plugins::GimbalControlPlugin&gt;" base_class_type="mavros::plugin::PluginFactory">
+    <description>@brief Gimbal Control Plugin
+@plugin gimbal_control
+
+Adds support for Mavlink Gimbal Protocol v2.
+Also publishes gimbal pose to TF when parameter tf_send==true</description>
+  </class>
   <class name="gps_input" type="mavros::plugin::PluginFactoryTemplate&lt;mavros::extra_plugins::GpsInputPlugin&gt;" base_class_type="mavros::plugin::PluginFactory">
     <description>@brief GPS_INPUT GPS plugin.
 @plugin gps_input
@@ -88,6 +95,12 @@ Sends &lt;a href=&quot;https://mavlink.io/en/messages/common.html#GPS_INPUT&quot
 @plugin gps_status
 
 This plugin publishes GPS sensor data from a Mavlink compatible FCU to ROS.</description>
+  </class>
+  <class name="guided_target" type="mavros::plugin::PluginFactoryTemplate&lt;mavros::extra_plugins::GuidedTargetPlugin&gt;" base_class_type="mavros::plugin::PluginFactory">
+    <description>@brief guided target plugin
+@plugin guided_target
+
+Send and receive setpoint positions from FCU controller.</description>
   </class>
   <class name="hil" type="mavros::plugin::PluginFactoryTemplate&lt;mavros::extra_plugins::HilPlugin&gt;" base_class_type="mavros::plugin::PluginFactory">
     <description>@brief Hil plugin
@@ -151,6 +164,12 @@ The twist is expressed in the child frame.
 
 Publishes the status of the onboard computer
 @see status_cb()</description>
+  </class>
+  <class name="optical_flow" type="mavros::plugin::PluginFactoryTemplate&lt;mavros::extra_plugins::OpticalFlowPlugin&gt;" base_class_type="mavros::plugin::PluginFactory">
+    <description>@brief Optical Flow custom plugin
+@plugin optical_flow
+
+This plugin can publish data from OpticalFlow camera to ROS</description>
   </class>
   <class name="play_tune" type="mavros::plugin::PluginFactoryTemplate&lt;mavros::extra_plugins::PlayTunePlugin&gt;" base_class_type="mavros::plugin::PluginFactory">
     <description>@brief Play Tune service
@@ -233,4 +252,4 @@ This plugin allows the receipt and transmission of wind data from sail mounted s
 This plugin allows the receipt of wingsail commands from an FCU</description>
   </class>
 </library>
-<!-- [[[end]]] (checksum: 616152f88997ac3b0173a8eef06cb7a8) -->
+<!-- [[[end]]] (checksum: b45714611896c0f7cf634dc7aaf2cbd6) -->

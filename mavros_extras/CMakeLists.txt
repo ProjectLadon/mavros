@@ -32,9 +32,14 @@ find_package(libmavconn REQUIRED)
 
 find_package(eigen3_cmake_module REQUIRED)
 find_package(Eigen3 REQUIRED)
-find_package(GEOGRAPHICLIB REQUIRED)
 # find_package(yaml_cpp REQUIRED)
 find_package(yaml_cpp_vendor REQUIRED)
+
+## Find GeographicLib
+# Append to CMAKE_MODULE_PATH since debian/ubuntu installs
+# FindGeographicLib.cmake in a nonstand location
+set(CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH};/usr/share/cmake/geographiclib")
+find_package(GeographicLib REQUIRED)
 
 find_package(angles REQUIRED)
 find_package(eigen_stl_containers REQUIRED)
@@ -55,7 +60,7 @@ find_package(std_srvs REQUIRED)
 find_package(trajectory_msgs REQUIRED)
 find_package(visualization_msgs REQUIRED)
 
-find_package(ssp_interfaces REQUIRED)
+find_package(sail_interfaces REQUIRED)
 
 include_directories(
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
@@ -65,7 +70,7 @@ include_directories(
 include_directories(
   ${mavlink_INCLUDE_DIRS}
   ${EIGEN3_INCLUDE_DIRS}
-  ${GEOGRAPHICLIB_INCLUDE_DIRS}
+  ${GeographicLib_INCLUDE_DIRS}
   ${pluginlib_INCLUDE_DIRS}
   /opt/ros/humble/include/pluginlib/
 )
@@ -79,6 +84,12 @@ if(rclcpp_VERSION VERSION_LESS 9.0.0)
   )
 endif()
 
+if(rclcpp_VERSION VERSION_LESS 17.0.0)
+  # Humble and older
+  add_definitions(
+    -DUSE_OLD_RMW_QOS
+  )
+endif()
 
 # [[[cog:
 # import mavros_cog
@@ -101,9 +112,11 @@ add_library(mavros_extras_plugins SHARED
   src/plugins/esc_status.cpp
   src/plugins/esc_telemetry.cpp
   src/plugins/fake_gps.cpp
+  src/plugins/gimbal_control.cpp
   src/plugins/gps_input.cpp
   src/plugins/gps_rtk.cpp
   src/plugins/gps_status.cpp
+  src/plugins/guided_target.cpp
   src/plugins/hil.cpp
   src/plugins/landing_target.cpp
   src/plugins/log_transfer.cpp
@@ -113,6 +126,7 @@ add_library(mavros_extras_plugins SHARED
   src/plugins/obstacle_distance.cpp
   src/plugins/odom.cpp
   src/plugins/onboard_computer_status.cpp
+  src/plugins/optical_flow.cpp
   src/plugins/play_tune.cpp
   src/plugins/px4flow.cpp
   src/plugins/rangefinder.cpp
@@ -150,7 +164,7 @@ ament_target_dependencies(mavros_extras_plugins
   message_filters
   Eigen3
   yaml_cpp_vendor
-  ssp_interfaces
+  sail_interfaces
 )
 pluginlib_export_plugin_description_file(mavros mavros_plugins.xml)
 

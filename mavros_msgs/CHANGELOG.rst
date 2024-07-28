@@ -2,6 +2,125 @@
 Changelog for package mavros_msgs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.8.0 (2024-06-07)
+------------------
+* regenerate all using cogall.sh
+* Merge branch 'master' into ros2
+  * master:
+  1.19.0
+  update changelog
+  gps_global_origin: remove LLA to ECEF conversion
+* 1.19.0
+* update changelog
+* removed prefix in enums in messages and changed to use existing functions for string and quaternion convert
+* Final touches
+  Added functionality that was overlooked for camera tracking if supported, added copyright info, added custom exception thrown when mode enumerator is not understood
+* Added gimbal_control plugin
+  Added all functionality to support a plugin to enable compatibility with MAVLink Gimbal Protocol v2
+* Contributors: Frederik Mazur Andersen, Mark-Beaty, Vladimir Ermakov
+
+1.19.0 (2024-06-06)
+-------------------
+
+2.7.0 (2024-03-03)
+------------------
+* re-generate with cogall.sh
+* Merge branch 'master' into ros2
+  * master:
+  1.18.0
+  update changelog
+  sys_status.cpp: improve timeout code
+  sys_status.cpp: Add a SYS_STATUS message publisher
+  [camera plugin] Fix image_index and capture_result not properly filled
+  Fix missing semi-colon
+  GPS_STATUS Plugin: Fill in available messages for ROS1 legacy
+* 1.18.0
+* update changelog
+* sys_status.cpp: Add a SYS_STATUS message publisher
+* cog checksum
+* remove event_time_boot_ms, fill stamp instead
+* handle events
+* Fix errata in GPSRAW.msg
+* Contributors: Dr.-Ing. Amilcar do Carmo Lucas, Seunghwan Jo, Vladimir Ermakov, victor
+
+1.18.0 (2024-03-03)
+-------------------
+* sys_status.cpp: Add a SYS_STATUS message publisher
+* Contributors: Dr.-Ing. Amilcar do Carmo Lucas
+
+2.6.0 (2023-09-09)
+------------------
+* msgs: move generator code
+* cog: regenerate all
+* Merge branch 'master' into ros2
+  * master:
+  1.17.0
+  update changelog
+  cog: regenerate all
+  Bugfix/update map origin with home position (`#1892 <https://github.com/mavlink/mavros/issues/1892>`_)
+  mavros: Remove extra ';'
+  mavros_extras: Fix some init order warnings
+  Suppress warnings from included headers
+  1.16.0
+  update changelog
+  made it such that the gp_origin topic published latched.
+  use hpp instead of deprecated .h pluginlib headers
+* 1.17.0
+* update changelog
+* cog: regenerate all
+* local takeoff and land topics (`#1890 <https://github.com/mavlink/mavros/issues/1890>`_)
+  * local takeoff and land topics
+  * vector3 position type, rename to TOLLocal
+  * remove auto include line
+* Merge pull request `#1871 <https://github.com/mavlink/mavros/issues/1871>`_ from Vladislavert/feature/optical_flow_msg
+  Addition of New OpticalFlow.msg
+* Added geometry_msgs/Vector3 to OpticalFlow.msg
+* Added vectors to the message OpticalFlow.msg
+* Added message optical flow
+* 1.16.0
+* update changelog
+* Contributors: Ido Guzi, Vladimir Ermakov, Vladislavert
+
+2.5.0 (2023-05-05)
+------------------
+
+2.4.0 (2022-12-30)
+------------------
+* msgs: re-generate
+* Merge branch 'master' into ros2
+  * master:
+  1.15.0
+  update changelog
+  ci: update actions
+  Implement debug float array handler
+  mavros_extras: Fix a sequence point warning
+  mavros_extras: Fix a comparison that shouldn't be bitwise
+  mavros: Fix some warnings
+  mavros_extras: Fix buggy check for lat/lon ignored
+  libmavconn: fix MAVLink v1.0 output selection
+* 1.15.0
+* update changelog
+* Merge pull request `#1811 <https://github.com/mavlink/mavros/issues/1811>`_ from scoutdi/debug-float-array
+  Implement debug float array handler
+* Implement debug float array handler
+  Co-authored-by: Morten Fyhn Amundsen <morten.f.amundsen@scoutdi.com>
+* Contributors: Sverre Velten Rothmund, Vladimir Ermakov
+
+2.3.0 (2022-09-24)
+------------------
+* Merge branch 'master' into ros2
+  * master:
+  1.14.0
+  update changelog
+  scripts: waypoint and param files are text, not binary
+  libmavconn: fix MAVLink v1.0 output selection
+  plugins: add guided_target to accept offboard position targets
+  add cmake module path for geographiclib on debian based systems
+  use already installed FindGeographicLib.cmake
+* 1.14.0
+* update changelog
+* Contributors: Vladimir Ermakov
+
 2.2.0 (2022-06-27)
 ------------------
 * Merge branch 'master' into ros2
@@ -27,13 +146,6 @@ Changelog for package mavros_msgs
   Bugfix: wrong interpolation when the reduction ratio (scale_factor) is not integer.
   Disable startup_px4_usb_quirk in px4_config.yaml
 * msgs: support humble
-* Merge pull request `#1742 <https://github.com/mavlink/mavros/issues/1742>`_ from amilcarlucas/correct_rpm_units
-  ESCTelemetryItem.msg: correct RPM units
-* ESCTelemetryItem.msg: correct RPM units
-* Merge pull request `#1727 <https://github.com/mavlink/mavros/issues/1727>`_ from BV-OpenSource/pr-cellular-status
-  Pr cellular status
-* Add CellularStatus plugin and message
-* Contributors: Dr.-Ing. Amilcar do Carmo Lucas, Rui Mendes, Vladimir Ermakov
 
 2.1.1 (2022-03-02)
 ------------------
@@ -295,6 +407,32 @@ Changelog for package mavros_msgs
   add ros1_bridge mapping rule for renamed VfrHud message
 * make mavro_msgs compile in ROS 2
 * Contributors: Mikael Arguedas, Mike Lautman, Vladimir Ermakov
+
+1.17.0 (2023-09-09)
+-------------------
+* cog: regenerate all
+* Contributors: Vladimir Ermakov
+
+1.16.0 (2023-05-05)
+-------------------
+
+1.15.0 (2022-12-30)
+-------------------
+* Merge pull request `#1811 <https://github.com/mavlink/mavros/issues/1811>`_ from scoutdi/debug-float-array
+  Implement debug float array handler
+* Implement debug float array handler
+  Co-authored-by: Morten Fyhn Amundsen <morten.f.amundsen@scoutdi.com>
+* Contributors: Sverre Velten Rothmund, Vladimir Ermakov
+
+1.14.0 (2022-09-24)
+-------------------
+* Merge pull request `#1742 <https://github.com/mavlink/mavros/issues/1742>`_ from amilcarlucas/correct_rpm_units
+  ESCTelemetryItem.msg: correct RPM units
+* ESCTelemetryItem.msg: correct RPM units
+* Merge pull request `#1727 <https://github.com/mavlink/mavros/issues/1727>`_ from BV-OpenSource/pr-cellular-status
+  Pr cellular status
+* Add CellularStatus plugin and message
+* Contributors: Dr.-Ing. Amilcar do Carmo Lucas, Rui Mendes, Vladimir Ermakov
 
 1.13.0 (2022-01-13)
 -------------------

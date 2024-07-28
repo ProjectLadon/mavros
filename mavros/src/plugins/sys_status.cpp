@@ -15,10 +15,12 @@
  * @{
  */
 
+#include <algorithm>
 #include <string>
 #include <vector>
 #include <unordered_map>
 #include <memory>
+#include <utility>
 
 #include "rcpputils/asserts.hpp"
 #include "mavros/mavros_uas.hpp"
@@ -26,11 +28,13 @@
 #include "mavros/plugin_filter.hpp"
 
 #include "mavros_msgs/msg/state.hpp"
+#include "mavros_msgs/msg/sys_status.hpp"
 #include "mavros_msgs/msg/estimator_status.hpp"
 #include "mavros_msgs/msg/extended_state.hpp"
 #include "mavros_msgs/srv/stream_rate.hpp"
 #include "mavros_msgs/srv/set_mode.hpp"
 #include "mavros_msgs/srv/command_long.hpp"
+#include "mavros_msgs/msg/status_event.hpp"
 #include "mavros_msgs/msg/status_text.hpp"
 #include "mavros_msgs/msg/vehicle_info.hpp"
 #include "mavros_msgs/srv/vehicle_info_get.hpp"
@@ -361,7 +365,7 @@ private:
 class MemInfo : public diagnostic_updater::DiagnosticTask
 {
 public:
-  MemInfo(const std::string & name)
+  explicit MemInfo(const std::string & name)
   : diagnostic_updater::DiagnosticTask(name),
     freemem(UINT32_MAX),
     brkval(0),
@@ -417,7 +421,7 @@ private:
 class HwStatus : public diagnostic_updater::DiagnosticTask
 {
 public:
-  HwStatus(const std::string & name)
+  explicit HwStatus(const std::string & name)
   : diagnostic_updater::DiagnosticTask(name),
     vcc(-1.0),
     i2cerr(0),
@@ -529,7 +533,7 @@ public:
           uas->diagnostic_updater.removeByName(sys_diag.getName());
           uas->diagnostic_updater.removeByName(mem_diag.getName());
           uas->diagnostic_updater.removeByName(hwst_diag.getName());
-          for (auto & d:batt_diag) {
+          for (auto & d : batt_diag) {
             uas->diagnostic_updater.removeByName(d.getName());
           }
         }
@@ -568,6 +572,8 @@ public:
       "state", state_qos);
     extended_state_pub = node->create_publisher<mavros_msgs::msg::ExtendedState>(
       "extended_state", state_qos);
+    sys_status_pub = node->create_publisher<mavros_msgs::msg::SysStatus>(
+      "sys_status", state_qos);
     estimator_status_pub = node->create_publisher<mavros_msgs::msg::EstimatorStatus>(
       "estimator_status", state_qos);
     batt_pub = node->create_publisher<BatteryMsg>("battery", sensor_qos);
@@ -577,28 +583,36 @@ public:
     statustext_sub = node->create_subscription<mavros_msgs::msg::StatusText>(
       "statustext/send", sensor_qos,
       std::bind(&SystemStatusPlugin::statustext_cb, this, _1));
+    statusevent_pub = node->create_publisher<mavros_msgs::msg::StatusEvent>(
+      "status_event", sensor_qos);
 
     srv_cg = node->create_callback_group(rclcpp::CallbackGroupType::MutuallyExclusive);
+
+#ifdef USE_OLD_RMW_QOS
+    auto services_qos = rmw_qos_profile_services_default;
+#else
+    auto services_qos = rclcpp::ServicesQoS();
+#endif
 
     mode_srv = node->create_service<mavros_msgs::srv::SetMode>(
       "set_mode",
       std::bind(
         &SystemStatusPlugin::set_mode_cb, this, _1,
-        _2), rmw_qos_profile_services_default, srv_cg);
+        _2), services_qos, srv_cg);
     stream_rate_srv = node->create_service<mavros_msgs::srv::StreamRate>(
       "set_stream_rate",
       std::bind(
         &SystemStatusPlugin::set_rate_cb, this, _1,
-        _2), rmw_qos_profile_services_default, srv_cg);
+        _2), services_qos, srv_cg);
     message_interval_srv = node->create_service<mavros_msgs::srv::MessageInterval>(
       "set_message_interval",
       std::bind(
         &SystemStatusPlugin::set_message_interval_cb, this, _1,
-        _2), rmw_qos_profile_services_default, srv_cg);
+        _2), services_qos, srv_cg);
     vehicle_info_get_srv = node->create_service<mavros_msgs::srv::VehicleInfoGet>(
       "vehicle_info_get", std::bind(
         &SystemStatusPlugin::vehicle_info_get_cb, this, _1,
-        _2), rmw_qos_profile_services_default, srv_cg);
+        _2), services_qos, srv_cg);
 
     uas->diagnostic_updater.add(hb_diag);
 
@@ -617,6 +631,7 @@ public:
       make_handler(&SystemStatusPlugin::handle_heartbeat),
       make_handler(&SystemStatusPlugin::handle_sys_status),
       make_handler(&SystemStatusPlugin::handle_statustext),
+      make_handler(&SystemStatusPlugin::handle_event),
       make_handler(&SystemStatusPlugin::handle_meminfo),
       make_handler(&SystemStatusPlugin::handle_hwstatus),
       make_handler(&SystemStatusPlugin::handle_autopilot_version),
@@ -639,11 +654,13 @@ private:
 
   rclcpp::Publisher<mavros_msgs::msg::State>::SharedPtr state_pub;
   rclcpp::Publisher<mavros_msgs::msg::ExtendedState>::SharedPtr extended_state_pub;
+  rclcpp::Publisher<mavros_msgs::msg::SysStatus>::SharedPtr sys_status_pub;
   rclcpp::Publisher<mavros_msgs::msg::EstimatorStatus>::SharedPtr estimator_status_pub;
   rclcpp::Publisher<BatteryMsg>::SharedPtr batt_pub;
 
   rclcpp::Publisher<mavros_msgs::msg::StatusText>::SharedPtr statustext_pub;
   rclcpp::Subscription<mavros_msgs::msg::StatusText>::SharedPtr statustext_sub;
+  rclcpp::Publisher<mavros_msgs::msg::StatusEvent>::SharedPtr statusevent_pub;
 
   rclcpp::CallbackGroup::SharedPtr srv_cg;
   rclcpp::Service<mavros_msgs::srv::StreamRate>::SharedPtr stream_rate_srv;
@@ -732,6 +749,62 @@ private:
       // [[[end]]] (checksum: d05760afbeece46673c8f73f89b63f3d)
       default:
         RCLCPP_WARN_STREAM(node->get_logger(), "FCU: UNK(" << +severity << "): " << text);
+        break;
+    }
+  }
+
+  /**
+   * Sent EVENT message to rosout
+   *
+   * @param[in] severity
+   */
+  void process_event_normal(
+    uint8_t severity, uint32_t px4_id, const std::array<uint8_t,
+    40> & arguments)
+  {
+    using mavlink::common::MAV_SEVERITY;
+
+    std::string arg_str = "-";
+    for (const uint8_t & arg : arguments) {
+      arg_str += std::to_string(arg) + "-";
+    }
+
+    switch (severity) {
+      // [[[cog:
+      // for l1, l2 in (
+      //     (('EMERGENCY', 'ALERT', 'CRITICAL', 'ERROR'), 'ERROR'),
+      //     (('WARNING', 'NOTICE'), 'WARN'),
+      //     (('INFO', ), 'INFO'),
+      //     (('DEBUG', ), 'DEBUG')
+      //     ):
+      //     for v in l1:
+      //         cog.outl(f"case enum_value(MAV_SEVERITY::{v}):")
+      //     cog.outl(f"  RCLCPP_{l2}_STREAM(node->get_logger(), \"FCU: EVENT \" << px4_id << \" with args \" << arg_str);")  # NOLINT
+      //     cog.outl(f"  break;")
+      // ]]]
+      case enum_value(MAV_SEVERITY::EMERGENCY):
+      case enum_value(MAV_SEVERITY::ALERT):
+      case enum_value(MAV_SEVERITY::CRITICAL):
+      case enum_value(MAV_SEVERITY::ERROR):
+        RCLCPP_ERROR_STREAM(node->get_logger(),
+            "FCU: EVENT " << px4_id << " with args " << arg_str);
+        break;
+      case enum_value(MAV_SEVERITY::WARNING):
+      case enum_value(MAV_SEVERITY::NOTICE):
+        RCLCPP_WARN_STREAM(node->get_logger(), "FCU: EVENT " << px4_id << " with args " << arg_str);
+        break;
+      case enum_value(MAV_SEVERITY::INFO):
+        RCLCPP_INFO_STREAM(node->get_logger(), "FCU: EVENT " << px4_id << " with args " << arg_str);
+        break;
+      case enum_value(MAV_SEVERITY::DEBUG):
+        RCLCPP_DEBUG_STREAM(node->get_logger(),
+            "FCU: EVENT " << px4_id << " with args " << arg_str);
+        break;
+      // [[[end]]] (checksum: 83f5eab6a8989f95de46d2a95387304c)
+      default:
+        RCLCPP_WARN_STREAM(
+          node->get_logger(),
+          "FCU: UNK(" << +severity << "): EVENT " << px4_id << " with args " << arg_str);
         break;
     }
   }
@@ -903,6 +976,25 @@ private:
     battery_voltage = volt;
     sys_diag.set(stat);
 
+    auto sys_status = mavros_msgs::msg::SysStatus();
+    sys_status.header.stamp = node->now();
+    sys_status.sensors_present = stat.onboard_control_sensors_present;
+    sys_status.sensors_enabled = stat.onboard_control_sensors_enabled;
+    sys_status.sensors_health = stat.onboard_control_sensors_health;
+
+    sys_status.load = stat.load;
+    sys_status.voltage_battery = stat.voltage_battery;
+    sys_status.current_battery = stat.current_battery;
+    sys_status.battery_remaining = stat.battery_remaining;
+    sys_status.drop_rate_comm = stat.drop_rate_comm;
+    sys_status.errors_comm = stat.errors_comm;
+    sys_status.errors_count1 = stat.errors_count1;
+    sys_status.errors_count2 = stat.errors_count2;
+    sys_status.errors_count3 = stat.errors_count3;
+    sys_status.errors_count4 = stat.errors_count4;
+
+    sys_status_pub->publish(sys_status);
+
     if (has_battery_status0) {
       return;
     }
@@ -942,6 +1034,27 @@ private:
     st_msg.text = text;
 
     statustext_pub->publish(st_msg);
+  }
+
+  void handle_event(
+    const mavlink::mavlink_message_t * msg [[maybe_unused]],
+    mavlink::common::msg::EVENT & eventm,
+    plugin::filter::SystemAndOk filter [[maybe_unused]])
+  {
+    // take only 4 LSB, see https://mavlink.io/en/messages/common.html#EVENT
+    uint8_t severity = eventm.log_levels & 0x0F;
+    // take only 24 LSB, see PX4 "constexpr uint32_t ID(const char (&name)[N])" function
+    uint32_t px4_id = eventm.id & 0x00FFFFFF;
+    process_event_normal(severity, px4_id, eventm.arguments);
+
+    auto evt_msg = mavros_msgs::msg::StatusEvent();
+    evt_msg.header.stamp = uas->synchronise_stamp(eventm.event_time_boot_ms);
+    evt_msg.severity = severity;
+    evt_msg.px4_id = px4_id;
+    evt_msg.arguments = eventm.arguments;
+    evt_msg.sequence = eventm.sequence;
+
+    statusevent_pub->publish(evt_msg);
   }
 
   void handle_meminfo(
@@ -1059,15 +1172,16 @@ private:
     float cell_voltage;
     float voltage_acc = 0.0f;
     float total_voltage = 0.0f;
-    constexpr float coalesce_voltage = (UINT16_MAX - 1) * 0.001f;   // 65,534V cell voltage means that the next element in the array must be added to this one
+    // 65,534V cell voltage means that the next element in the array must be added to this one
+    constexpr float coalesce_voltage = (UINT16_MAX - 1) * 0.001f;
     for (auto v : bs.voltages) {
       if (v == UINT16_MAX) {
         break;
       }
 
-      if (v == UINT16_MAX - 1) {                // cell voltage is above 65,534V
+      if (v == UINT16_MAX - 1) {    // cell voltage is above 65,534V
         voltage_acc += coalesce_voltage;
-        continue;                               // add to the next array element to get the correct voltage
+        continue;                   // add to the next array element to get the correct voltage
       }
 
       cell_voltage = voltage_acc + (v * 0.001f);    // 1 mV
@@ -1076,13 +1190,16 @@ private:
       total_voltage += cell_voltage;
     }
     for (auto v : bs.voltages_ext) {
-      if (v == UINT16_MAX || v == 0) {          // this one is different from the for loop above to support mavlink2 message truncation
+      if (v == UINT16_MAX || v == 0) {
+        // this one is different from the for loop above to support mavlink2 message truncation
         break;
       }
 
-      if (v == UINT16_MAX - 1) {                // cell voltage is above 65,534V
+      if (v == UINT16_MAX - 1) {
+        // cell voltage is above 65,534V
+        // add to the next array element to get the correct voltage
         voltage_acc += coalesce_voltage;
-        continue;                               // add to the next array element to get the correct voltage
+        continue;
       }
 
       cell_voltage = voltage_acc + (v * 0.001f);    // 1 mV
@@ -1102,7 +1219,7 @@ private:
       has_battery_status0 = true;
     }
 
-    if (!disable_diag && bs.id >= 0 && bs.id < MAX_NR_BATTERY_STATUS) {
+    if (!disable_diag && bs.id < MAX_NR_BATTERY_STATUS) {
       batt_diag[bs.id].set(total_voltage, batt_msg.current, batt_msg.percentage);
       batt_diag[bs.id].setcell_v(batt_msg.cell_voltage);
     }

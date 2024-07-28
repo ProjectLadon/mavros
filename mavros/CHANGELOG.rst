@@ -2,6 +2,244 @@
 Changelog for package mavros
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.8.0 (2024-06-07)
+------------------
+* param: replace old rmw_qos usage
+* sys_status: replace rmw_qos too
+* command: fix humble condition
+* regenerate all using cogall.sh
+* command: keep support for humble
+* command: fix misprint
+* command: replace deprecated rmw_qos
+* reformat with jazzy's ament_uncrustify
+* Merge branch 'master' into ros2
+  * master:
+  1.19.0
+  update changelog
+  gps_global_origin: remove LLA to ECEF conversion
+* 1.19.0
+* update changelog
+* gps_global_origin: remove LLA to ECEF conversion
+  gps_global_origin is being published as
+  geographic_msgs::GeoPointStamped
+  message, which wants LLA format
+  https://docs.ros.org/en/api/geographic_msgs/html/msg/GeoPointStamped.html
+  FIX https://github.com/mavlink/mavros/issues/1381
+* Update mavlink.py
+  Kept `#569 <https://github.com/mavlink/mavros/issues/569>`_ FIXME tag
+* Update mavlink.py
+  Fixed bug `#569 <https://github.com/mavlink/mavros/issues/569>`_ from mavros. Fixed another bug in the building of the ros mavlink message- the seq field was not added to the ros mavlink message.
+* Contributors: Beniamino Pozzan, Vladimir Ermakov, danielkalmanson
+
+1.19.0 (2024-06-06)
+-------------------
+* gps_global_origin: remove LLA to ECEF conversion
+  gps_global_origin is being published as
+  geographic_msgs::GeoPointStamped
+  message, which wants LLA format
+  https://docs.ros.org/en/api/geographic_msgs/html/msg/GeoPointStamped.html
+  FIX https://github.com/mavlink/mavros/issues/1381
+* Contributors: Beniamino Pozzan
+
+2.7.0 (2024-03-03)
+------------------
+* Merge branch 'master' into ros2
+  * master:
+  1.18.0
+  update changelog
+  sys_status.cpp: improve timeout code
+  sys_status.cpp: Add a SYS_STATUS message publisher
+  [camera plugin] Fix image_index and capture_result not properly filled
+  Fix missing semi-colon
+  GPS_STATUS Plugin: Fill in available messages for ROS1 legacy
+* 1.18.0
+* update changelog
+* move /conn parameters to /sys and /time
+* sys_status.cpp: improve timeout code
+  # Conflicts:
+  #	mavros/src/plugins/sys_status.cpp
+* sys_status.cpp: Add a SYS_STATUS message publisher
+* Removed warning from geometry2 header
+* Fix PR 1922 regarding EVENT message
+* use synchronise_stamp to create stamp
+* new checksum for event enum
+* remove event_time_boot_ms, fill stamp instead
+* handle events
+* fix mav service  call and wp load
+* Remove hardcoded namespace from px4_pluginlists
+* Remove hardcoded namespace from px4_config
+* Define _frd frames in odom plugin based on parent/child frame parametrs
+* Define parameters for base_link, odom, map frames
+* Contributors: Alejandro Hernández Cordero, Dr.-Ing. Amilcar do Carmo Lucas, Mattia Giurato, Mohamed Abdelkader, Vladimir Ermakov, elgarbe, sathak93, victor
+
+1.18.0 (2024-03-03)
+-------------------
+* sys_status.cpp: improve timeout code
+* sys_status.cpp: Add a SYS_STATUS message publisher
+* Contributors: Dr.-Ing. Amilcar do Carmo Lucas
+
+2.6.0 (2023-09-09)
+------------------
+* fix build warnings tf2_eigen.h
+* switch to use tf2_eigen.hpp, but that drops support for EOL distros
+* fix ament_cpplint
+* reformat python code with black
+* msgs: move generator code
+* ament uncrustify
+* Merge branch 'master' into ros2
+  * master:
+  1.17.0
+  update changelog
+  cog: regenerate all
+  Bugfix/update map origin with home position (`#1892 <https://github.com/mavlink/mavros/issues/1892>`_)
+  mavros: Remove extra ';'
+  mavros_extras: Fix some init order warnings
+  Suppress warnings from included headers
+  1.16.0
+  update changelog
+  made it such that the gp_origin topic published latched.
+  use hpp instead of deprecated .h pluginlib headers
+* 1.17.0
+* update changelog
+* cog: regenerate all
+* local takeoff and land topics (`#1890 <https://github.com/mavlink/mavros/issues/1890>`_)
+  * local takeoff and land topics
+  * vector3 position type, rename to TOLLocal
+  * remove auto include line
+* Bugfix/update map origin with home position (`#1892 <https://github.com/mavlink/mavros/issues/1892>`_)
+  * Update map origin with home position
+  * Uncrustify
+  * Revert "Uncrustify"
+  This reverts commit f1387c79c7670cc241986586436e3da43842e877.
+  * Change to relative topic
+  ---------
+  Co-authored-by: Natalia Molina <molina-munoz@wingcopter.com>
+* Merge pull request `#1865 <https://github.com/mavlink/mavros/issues/1865>`_ from scoutdi/warnings
+  Fix / suppress some build warnings
+* mavros: Remove extra ';'
+* Suppress warnings from included headers
+* 1.16.0
+* update changelog
+* Merge pull request `#1829 <https://github.com/mavlink/mavros/issues/1829>`_ from snwu1996/latched_gp_origin_pub
+  Made it such that the gp_origin topic publisher is latched.
+* made it such that the gp_origin topic published latched.
+* Merge pull request `#1817 <https://github.com/mavlink/mavros/issues/1817>`_ from lucasw/pluginlib_hpp
+  use hpp instead of deprecated .h pluginlib headers
+* use hpp instead of deprecated .h pluginlib headers
+* Contributors: Ido Guzi, Lucas Walter, Morten Fyhn Amundsen, Shu-Nong Wu, Vladimir Ermakov, natmol
+
+2.5.0 (2023-05-05)
+------------------
+* Merge pull request `#1852 <https://github.com/mavlink/mavros/issues/1852>`_ from robobe/fix-mavlink-header-stamp
+  Fix mavlink header stamp in convert_to_rosmsg method
+* Delete test_convert_to_rosmsg.py
+* fix flake8
+* fix flake8
+* fix conver_to_rosmsg method
+  fix header stamp field
+  move from rclpy.Time to
+  builtin_interfaces Time message
+* Merge branch 'mavlink_payload64_fix' into ros2
+* Merge pull request `#1851 <https://github.com/mavlink/mavros/issues/1851>`_ from robobe/mavlink_payload64_fix
+  cast payload_octest to int
+* cast payload_octest to int
+  test script ,
+* Merge pull request `#1838 <https://github.com/mavlink/mavros/issues/1838>`_ from vacabun/launch_namespace_fix
+  fix ROS2 launch parameters namespace and name.
+* fix plugin denylist allowlist name, and fix parameters namespace.
+* Merge pull request `#1835 <https://github.com/mavlink/mavros/issues/1835>`_ from vacabun/multi_uas_launch_fix
+  Multi-UAS launch
+* Merge branch 'ros2' into multi_uas_launch_fix
+* Merge pull request `#1836 <https://github.com/mavlink/mavros/issues/1836>`_ from eMrazSVK/ros2
+  Fix apm_pluginlist.yaml and apm.launch
+* naming
+* Fix apm config and launch ROS2
+* Remove duplicate parameters
+* fix parameters name tgt_system and tgt_component and add multi-uas launch.
+* Merge pull request `#1834 <https://github.com/mavlink/mavros/issues/1834>`_ from vacabun/px4_launch_fix
+  fix px4 launch file for ROS2
+* change plugin odom parameters in apm launch.
+* 1.Change part of parameters to be flat In ROS2.
+  2.Remove plugin safety_area in launch parameters file.
+* remove event_launcher.yaml mavlink_bridge.launch
+* remove file 'apm2.lunch'.
+* fix apm launch files to ROS2.
+* fix plugin distance_sensor parses yaml from string parameter.
+* fix px4 launch file on ROS2.
+* Merge pull request `#1833 <https://github.com/mavlink/mavros/issues/1833>`_ from lopsided98/ftp-segfault
+  plugins: ftp: fix null pointer dereference
+* plugins: ftp: fix null pointer dereference
+  df4e529 mistakenly switched PayloadHeader::data from using a non-standards
+  compliant (but accepted by most compilers) flexible array to a pointer. This
+  resulted in an attempt to dereference the uninitialized contents of the array.
+  This patch eliminates PayloadHeader::data and instead makes FTPRequest::data()
+  use pointer arithmetic to get the data buffer from within the payload buffer.
+* Contributors: Ben Wolsieffer, Eduard Mraz, Vladimir Ermakov, robo, robobe, vacabun
+
+2.4.0 (2022-12-30)
+------------------
+* ci: ignore xml lib warn
+* Merge branch 'master' into ros2
+  * master:
+  1.15.0
+  update changelog
+  ci: update actions
+  Implement debug float array handler
+  mavros_extras: Fix a sequence point warning
+  mavros_extras: Fix a comparison that shouldn't be bitwise
+  mavros: Fix some warnings
+  mavros_extras: Fix buggy check for lat/lon ignored
+  libmavconn: fix MAVLink v1.0 output selection
+* 1.15.0
+* update changelog
+* Merge pull request `#1806 <https://github.com/mavlink/mavros/issues/1806>`_ from scoutdi/fix-some-warnings
+  mavros: Fix some warnings
+* mavros: Fix some warnings
+* Contributors: Morten Fyhn Amundsen, Vladimir Ermakov
+
+2.3.0 (2022-09-24)
+------------------
+* extras: fix linter errors
+* mavros: remove custom find script, re-generate
+* Merge branch 'master' into ros2
+  * master:
+  1.14.0
+  update changelog
+  scripts: waypoint and param files are text, not binary
+  libmavconn: fix MAVLink v1.0 output selection
+  plugins: add guided_target to accept offboard position targets
+  add cmake module path for geographiclib on debian based systems
+  use already installed FindGeographicLib.cmake
+* 1.14.0
+* update changelog
+* scripts: waypoint and param files are text, not binary
+  Fix `#1784 <https://github.com/mavlink/mavros/issues/1784>`_
+* Merge pull request `#1780 <https://github.com/mavlink/mavros/issues/1780>`_ from snktshrma/master
+  guided_target: accept position-target-global-int messages
+* plugins: add guided_target to accept offboard position targets
+  Update guided_target.cpp
+  Update guided_target.cpp
+  Update mavros_plugins.xml
+  Update CMakeLists.txt
+  Added offboard_position.cpp
+  Update apm_config.yaml
+  Update offboard_position.cpp
+  Update offboard_position.cpp
+  Rename offboard_position.cpp to guided_target.cpp
+  Update CMakeLists.txt
+  Update mavros_plugins.xml
+  Update apm_config.yaml
+  Update guided_target.cpp
+* Merge pull request `#1775 <https://github.com/mavlink/mavros/issues/1775>`_ from acxz/find-geographiclib
+  use already installed FindGeographicLib.cmake
+* add cmake module path for geographiclib on debian based systems
+* Merge pull request `#1771 <https://github.com/mavlink/mavros/issues/1771>`_ from alehed/fix/update_comment
+  Put correct version in comment
+* Put correct version in comment
+  Now that the change has been merged into master in pymavlink,
+  it will be in the next tagged release.
+* Contributors: Alexander Hedges, Sanket Sharma, Vladimir Ermakov, acxz
+
 2.2.0 (2022-06-27)
 ------------------
 * extras: fix build
@@ -36,6 +274,64 @@ Changelog for package mavros
 * Make compatible with pymavlink type annotations PR
   In that PR, the attribute name is changed to msgname due to conflicts
   with message instance variables.
+
+1.17.0 (2023-09-09)
+-------------------
+* cog: regenerate all
+* Bugfix/update map origin with home position (`#1892 <https://github.com/mavlink/mavros/issues/1892>`_)
+  * Update map origin with home position
+  * Uncrustify
+  * Revert "Uncrustify"
+  This reverts commit f1387c79c7670cc241986586436e3da43842e877.
+  * Change to relative topic
+  ---------
+  Co-authored-by: Natalia Molina <molina-munoz@wingcopter.com>
+* Merge pull request `#1865 <https://github.com/mavlink/mavros/issues/1865>`_ from scoutdi/warnings
+  Fix / suppress some build warnings
+* mavros: Remove extra ';'
+* Suppress warnings from included headers
+* Contributors: Morten Fyhn Amundsen, Vladimir Ermakov, natmol
+
+1.16.0 (2023-05-05)
+-------------------
+* Merge pull request `#1829 <https://github.com/mavlink/mavros/issues/1829>`_ from snwu1996/latched_gp_origin_pub
+  Made it such that the gp_origin topic publisher is latched.
+* made it such that the gp_origin topic published latched.
+* Merge pull request `#1817 <https://github.com/mavlink/mavros/issues/1817>`_ from lucasw/pluginlib_hpp
+  use hpp instead of deprecated .h pluginlib headers
+* use hpp instead of deprecated .h pluginlib headers
+* Contributors: Lucas Walter, Shu-Nong Wu, Vladimir Ermakov
+
+1.15.0 (2022-12-30)
+-------------------
+* Merge pull request `#1806 <https://github.com/mavlink/mavros/issues/1806>`_ from scoutdi/fix-some-warnings
+  mavros: Fix some warnings
+* mavros: Fix some warnings
+* Contributors: Morten Fyhn Amundsen, Vladimir Ermakov
+
+1.14.0 (2022-09-24)
+-------------------
+* scripts: waypoint and param files are text, not binary
+  Fix `#1784 <https://github.com/mavlink/mavros/issues/1784>`_
+* Merge pull request `#1780 <https://github.com/mavlink/mavros/issues/1780>`_ from snktshrma/master
+  guided_target: accept position-target-global-int messages
+* plugins: add guided_target to accept offboard position targets
+  Update guided_target.cpp
+  Update guided_target.cpp
+  Update mavros_plugins.xml
+  Update CMakeLists.txt
+  Added offboard_position.cpp
+  Update apm_config.yaml
+  Update offboard_position.cpp
+  Update offboard_position.cpp
+  Rename offboard_position.cpp to guided_target.cpp
+  Update CMakeLists.txt
+  Update mavros_plugins.xml
+  Update apm_config.yaml
+  Update guided_target.cpp
+* Merge pull request `#1775 <https://github.com/mavlink/mavros/issues/1775>`_ from acxz/find-geographiclib
+  use already installed FindGeographicLib.cmake
+* add cmake module path for geographiclib on debian based systems
 * Merge pull request `#1744 <https://github.com/mavlink/mavros/issues/1744>`_ from amilcarlucas/pr_gimbal_diagnostics_fixes
   mount_control.cpp: detect MOUNT_ORIENTATION stale messages
 * mount_control.cpp: detect MOUNT_ORIENTATION stale messages
@@ -593,7 +889,7 @@ Changelog for package mavros
 * Merge branch 'ros2' into ros2
 * msgs: start porting to ROS2
 * disable all packages but messages
-* Contributors: Alexey Rogachevskiy, Mikael Arguedas, Thomas, Vladimir Ermakov
+* Contributors: Dr.-Ing. Amilcar do Carmo Lucas, Karthik Desai, Oleg Kalachev, Sanket Sharma, Vladimir Ermakov, acxz
 
 1.13.0 (2022-01-13)
 -------------------

@@ -2,6 +2,108 @@
 Changelog for package libmavconn
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.8.0 (2024-06-07)
+------------------
+* Merge branch 'master' into ros2
+  * master:
+  1.19.0
+  update changelog
+  gps_global_origin: remove LLA to ECEF conversion
+* 1.19.0
+* update changelog
+* Contributors: Vladimir Ermakov
+
+1.19.0 (2024-06-06)
+-------------------
+
+2.7.0 (2024-03-03)
+------------------
+* Merge branch 'master' into ros2
+  * master:
+  1.18.0
+  update changelog
+  sys_status.cpp: improve timeout code
+  sys_status.cpp: Add a SYS_STATUS message publisher
+  [camera plugin] Fix image_index and capture_result not properly filled
+  Fix missing semi-colon
+  GPS_STATUS Plugin: Fill in available messages for ROS1 legacy
+* 1.18.0
+* update changelog
+* Contributors: Vladimir Ermakov
+
+1.18.0 (2024-03-03)
+-------------------
+
+2.6.0 (2023-09-09)
+------------------
+* fix ament_cpplint
+* Merge branch 'master' into ros2
+  * master:
+  1.17.0
+  update changelog
+  cog: regenerate all
+  Bugfix/update map origin with home position (`#1892 <https://github.com/mavlink/mavros/issues/1892>`_)
+  mavros: Remove extra ';'
+  mavros_extras: Fix some init order warnings
+  Suppress warnings from included headers
+  1.16.0
+  update changelog
+  made it such that the gp_origin topic published latched.
+  use hpp instead of deprecated .h pluginlib headers
+* 1.17.0
+* update changelog
+* Merge pull request `#1865 <https://github.com/mavlink/mavros/issues/1865>`_ from scoutdi/warnings
+  Fix / suppress some build warnings
+* Suppress warnings from included headers
+* 1.16.0
+* update changelog
+* Contributors: Morten Fyhn Amundsen, Vladimir Ermakov
+
+2.5.0 (2023-05-05)
+------------------
+
+2.4.0 (2022-12-30)
+------------------
+* Merge branch 'master' into ros2
+  * master:
+  1.15.0
+  update changelog
+  ci: update actions
+  Implement debug float array handler
+  mavros_extras: Fix a sequence point warning
+  mavros_extras: Fix a comparison that shouldn't be bitwise
+  mavros: Fix some warnings
+  mavros_extras: Fix buggy check for lat/lon ignored
+  libmavconn: fix MAVLink v1.0 output selection
+* 1.15.0
+* update changelog
+* Merge pull request `#1794 <https://github.com/mavlink/mavros/issues/1794>`_ from rossizero/master
+  libmavconn: fix MAVLink v1.0 output selection
+* libmavconn: fix MAVLink v1.0 output selection
+  Fix `#1787 <https://github.com/mavlink/mavros/issues/1787>`_
+* Contributors: Vladimir Ermakov, rosrunne
+
+2.3.0 (2022-09-24)
+------------------
+* mavros: remove custom find script, re-generate
+* Merge branch 'master' into ros2
+  * master:
+  1.14.0
+  update changelog
+  scripts: waypoint and param files are text, not binary
+  libmavconn: fix MAVLink v1.0 output selection
+  plugins: add guided_target to accept offboard position targets
+  add cmake module path for geographiclib on debian based systems
+  use already installed FindGeographicLib.cmake
+* 1.14.0
+* update changelog
+* libmavconn: fix MAVLink v1.0 output selection
+  Fix `#1787 <https://github.com/mavlink/mavros/issues/1787>`_
+* Merge pull request `#1775 <https://github.com/mavlink/mavros/issues/1775>`_ from acxz/find-geographiclib
+  use already installed FindGeographicLib.cmake
+* use already installed FindGeographicLib.cmake
+* Contributors: Vladimir Ermakov, acxz
+
 2.2.0 (2022-06-27)
 ------------------
 * Merge pull request `#1720 <https://github.com/mavlink/mavros/issues/1720>`_ from SylvainPastor/fix/libmavconn/udp/deadlocks
@@ -236,6 +338,33 @@ Changelog for package libmavconn
 * msgs: start porting to ROS2
 * disable all packages but messages
 * Contributors: Mikael Arguedas, Vladimir Ermakov
+
+1.17.0 (2023-09-09)
+-------------------
+* Merge pull request `#1865 <https://github.com/mavlink/mavros/issues/1865>`_ from scoutdi/warnings
+  Fix / suppress some build warnings
+* Suppress warnings from included headers
+* Contributors: Morten Fyhn Amundsen, Vladimir Ermakov
+
+1.16.0 (2023-05-05)
+-------------------
+
+1.15.0 (2022-12-30)
+-------------------
+* Merge pull request `#1794 <https://github.com/mavlink/mavros/issues/1794>`_ from rossizero/master
+  libmavconn: fix MAVLink v1.0 output selection
+* libmavconn: fix MAVLink v1.0 output selection
+  Fix `#1787 <https://github.com/mavlink/mavros/issues/1787>`_
+* Contributors: Vladimir Ermakov, rosrunne
+
+1.14.0 (2022-09-24)
+-------------------
+* libmavconn: fix MAVLink v1.0 output selection
+  Fix `#1787 <https://github.com/mavlink/mavros/issues/1787>`_
+* Merge pull request `#1775 <https://github.com/mavlink/mavros/issues/1775>`_ from acxz/find-geographiclib
+  use already installed FindGeographicLib.cmake
+* use already installed FindGeographicLib.cmake
+* Contributors: Vladimir Ermakov, acxz
 
 1.13.0 (2022-01-13)
 -------------------

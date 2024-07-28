@@ -54,14 +54,14 @@ def print_version(ctx, param_, value):
     if not value or ctx.resilient_parsing:
         return
 
-    import xml.etree.ElementTree as ET
+    import xml.etree.ElementTree as ET  # nosemgrep
 
     import ament_index_python as aip
 
     share_dir = aip.get_package_share_directory("mavros")
     package_xml = pathlib.Path(share_dir) / "package.xml"
 
-    tree = ET.parse(package_xml)
+    tree = ET.parse(package_xml)  # nosemgrep
     versions = tree.getroot().findall("version")
 
     click.echo(f"MAVROS Version: {versions[0].text}")
