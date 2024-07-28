@@ -60,7 +60,7 @@ find_package(std_srvs REQUIRED)
 find_package(trajectory_msgs REQUIRED)
 find_package(visualization_msgs REQUIRED)
 
-find_package(ssp_interfaces REQUIRED)
+find_package(sail_interfaces REQUIRED)
 
 include_directories(
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
@@ -164,7 +164,7 @@ ament_target_dependencies(mavros_extras_plugins
   message_filters
   Eigen3
   yaml_cpp_vendor
-  ssp_interfaces
+  sail_interfaces
 )
 pluginlib_export_plugin_description_file(mavros mavros_plugins.xml)
 

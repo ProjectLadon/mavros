@@ -17,7 +17,7 @@
 #include "mavros/plugin.hpp"
 #include "mavros/plugin_filter.hpp"
 
-#include "ssp_interfaces/msg/wingsail_actuator.hpp"
+#include "sail_interfaces/msg/wingsail_actuator.hpp"
 
 namespace mavros
 {
@@ -38,7 +38,7 @@ namespace mavros
             {
                 auto sensor_qos = rclcpp::SensorDataQoS();
 
-                mWingsailActPub = node->create_publisher<ssp_interfaces::msg::WingsailActuator>(
+                mWingsailActPub = node->create_publisher<sail_interfaces::msg::WingsailActuator>(
                     "wingsail_actuator", sensor_qos);
             }
 
@@ -50,7 +50,7 @@ namespace mavros
             }
 
         private:
-            rclcpp::Publisher<ssp_interfaces::msg::WingsailActuator>::SharedPtr mWingsailActPub;
+            rclcpp::Publisher<sail_interfaces::msg::WingsailActuator>::SharedPtr mWingsailActPub;
 
             // rx handler
             void handle_wingsail(
@@ -58,7 +58,7 @@ namespace mavros
                 mavlink::ladon_robotics::msg::WINGSAIL_ACTUATOR & in,
                 plugin::filter::ComponentAndOk filter [[maybe_unused]])
             {
-                auto out = ssp_interfaces::msg::WingsailActuator();
+                auto out = sail_interfaces::msg::WingsailActuator();
                 out.header.stamp        = node->now();
                 out.target_sail         = in.target_sail;
                 out.sail_angle_type     = in.sail_angle_type;

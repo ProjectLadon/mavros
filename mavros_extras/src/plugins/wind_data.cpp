@@ -17,7 +17,7 @@
 #include "mavros/plugin.hpp"
 #include "mavros/plugin_filter.hpp"
 
-#include "ssp_interfaces/msg/wind_data.hpp"
+#include "sail_interfaces/msg/wind_data.hpp"
 
 namespace mavros
 {
@@ -38,9 +38,9 @@ namespace mavros
             {
                 auto sensor_qos = rclcpp::SensorDataQoS();
 
-                mWindDataPub = node->create_publisher<ssp_interfaces::msg::WindData>(
+                mWindDataPub = node->create_publisher<sail_interfaces::msg::WindData>(
                     "wind_data_in", sensor_qos);
-                mWindDataSub = node->create_subscription<ssp_interfaces::msg::WindData>(
+                mWindDataSub = node->create_subscription<sail_interfaces::msg::WindData>(
                     "wind_data_out", sensor_qos, std::bind(
                         &WindDataPlugin::wind_cb, this, _1));
             }
@@ -53,8 +53,8 @@ namespace mavros
             }
 
         private:
-            rclcpp::Publisher<ssp_interfaces::msg::WindData>::SharedPtr mWindDataPub;
-            rclcpp::Subscription<ssp_interfaces::msg::WindData>::SharedPtr mWindDataSub;
+            rclcpp::Publisher<sail_interfaces::msg::WindData>::SharedPtr mWindDataPub;
+            rclcpp::Subscription<sail_interfaces::msg::WindData>::SharedPtr mWindDataSub;
 
             // rx handler
             void handle_wind(
@@ -62,7 +62,7 @@ namespace mavros
                 mavlink::ladon_robotics::msg::WIND_DATA & in,
                 plugin::filter::ComponentAndOk filter [[maybe_unused]])
             {
-                auto out = ssp_interfaces::msg::WindData();
+                auto out = sail_interfaces::msg::WindData();
                 out.header.stamp    = node->now();
                 out.source_sail     = in.source_sail;
                 out.wind_type       = in.wind_type;
@@ -73,7 +73,7 @@ namespace mavros
             }
 
             // callback
-            void wind_cb(const ssp_interfaces::msg::WindData::SharedPtr in)
+            void wind_cb(const sail_interfaces::msg::WindData::SharedPtr in)
             {
                 mavlink::ladon_robotics::msg::WIND_DATA out{};
                 out.source_sail     = in->source_sail;
