@@ -59,12 +59,12 @@ namespace mavros
                 plugin::filter::ComponentAndOk filter [[maybe_unused]])
             {
                 auto out = sail_interfaces::msg::WingsailActuator();
-                out.header.stamp        = node->now();
-                out.target_sail         = in.target_sail;
-                out.sail_angle_type     = in.sail_angle_type;
-                out.sail_angle          = in.sail_angle;
-                out.flap_active         = in.flap_active;
-                out.flap_angle          = in.flap_angle;
+                out.header.stamp            = node->now();
+                out.target_sail.position    = in.target_sail;
+                out.sail_angle_type.type    = in.sail_angle_type;
+                out.sail_angle              = in.sail_angle;
+                out.flap_active             = in.flap_active;
+                out.flap_angle              = in.flap_angle;
 
                 mWingsailActPub->publish(out);
             }

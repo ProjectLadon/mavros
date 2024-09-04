@@ -63,11 +63,11 @@ namespace mavros
                 plugin::filter::ComponentAndOk filter [[maybe_unused]])
             {
                 auto out = sail_interfaces::msg::WindData();
-                out.header.stamp    = node->now();
-                out.source_sail     = in.source_sail;
-                out.wind_type       = in.wind_type;
-                out.speed           = in.speed;
-                out.direction       = in.direction;
+                out.header.stamp            = node->now();
+                out.source_sail.position    = in.source_sail;
+                out.wind_type.type          = in.wind_type;
+                out.speed                   = in.speed;
+                out.direction               = in.direction;
 
                 mWindDataPub->publish(out);
             }
@@ -76,8 +76,8 @@ namespace mavros
             void wind_cb(const sail_interfaces::msg::WindData::SharedPtr in)
             {
                 mavlink::ladon_robotics::msg::WIND_DATA out{};
-                out.source_sail     = in->source_sail;
-                out.wind_type       = in->wind_type;
+                out.source_sail     = in->source_sail.position;
+                out.wind_type       = in->wind_type.type;
                 out.speed           = in->speed;
                 out.direction       = in->direction;
 
